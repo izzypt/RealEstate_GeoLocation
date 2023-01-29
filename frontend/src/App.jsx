@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import {BrowserRouter, Routes, Route} from "react-router-dom"
 import SecondComponent from './Components/SecondComponent'
-import './App.css'
+import Home from './Components/Home'
+import Register from './Components/register'
 
 
 
@@ -16,9 +17,16 @@ function App() {
   }
   return (
     <div className="App">
-      <h1>App component</h1>
-      <MyComponents></MyComponents>
-      <SecondComponent></SecondComponent>
+		
+		<BrowserRouter>
+		<Routes>
+			<Route path="/firstComponent" element={<h1>App component</h1>}/>
+			<Route path="/myComponent" element={<MyComponents/>}/>
+			<Route path="/SecondComponent" element={<SecondComponent/>}/>
+			<Route path="/Register" element={<Register/>}/>
+			<Route path="/" element={<Home/>}/>
+		</Routes>
+		</BrowserRouter>
     </div>
   )
 }

@@ -1,0 +1,7 @@
+.mainTitle{
+    position: absolute;
+    text-align: center;
+    z-index: 2;
+    color: white;
+    top: 100px;
+}
