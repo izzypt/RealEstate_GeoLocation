@@ -38,7 +38,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS=['*']
 
 
 # Application definition
@@ -154,5 +154,14 @@ REST_FRAMEWORK = {
     ),
 }
 
+# CORS ALLOWED HOSTS/ORIGIN
+CORS_ORIGIN_ALLOW_ALL = True
+
 # We want this to be the user model
 AUTH_USER_MODEL = 'users.User'
+
+# Authentication framework Djoser settings:
+DJOSER = {
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SEND_ACTIVATION_EMAIL': False,
+}
