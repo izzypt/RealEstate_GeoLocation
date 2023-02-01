@@ -1,7 +1,6 @@
 import React from 'react'
-import AppBar from '@mui/material/AppBar';
+import { AppBar, Typography, Icon } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,12 +8,12 @@ function MainNavBar() {
     const navigate = useNavigate()
   return (
     <AppBar position="static" style={{backgroundColor:'black'}}>
-        <Toolbar>
-            <Typography variant="h5" component="div" sx={{ flexGrow: 1, cursor: "pointer" }} onClick={() => {navigate("/")}}>
+        <Toolbar sx={{display:'flex', justifyContent:'space-between'}}>
+            <Typography variant="h5" component="div" sx={{cursor: "pointer" }} onClick={() => {navigate("/")}}>
                 RealEstate 
             </Typography>
-            <div style={{marginLeft: 'auto', marginRight: '45rem'}}>
-                <Button color="inherit">Listings</Button>
+            <div>
+                <Button color="inherit" onClick={() => {navigate("/listings")}}>Listings</Button>
                 <Button color="inherit">Agencies</Button>
             </div>
             <div>

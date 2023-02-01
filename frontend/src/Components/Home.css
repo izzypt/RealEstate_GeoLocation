@@ -1,7 +1,4 @@
 .mainTitle{
-    position: absolute;
-    text-align: center;
-    z-index: 2;
     color: white;
-    top: 100px;
+    background: url('../assets/bridge_night.jpg');
 }

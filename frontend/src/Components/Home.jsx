@@ -11,10 +11,11 @@ function Home() {
   return (
     <>
 		<MainNavBar/>
-		<div style={{ display:'flex', justifyContent:'center', alignItems:'center', textAlign:'center'}}>
-        	<img src={bridge_night} style={{ width:"100%", height:"94vh" }}/>
-			<Typography variant='h1' className='mainTitle' align='center'>Find your next property in Real Estate</Typography>
-			<Button variant='contained' size="large" style={{position:'absolute', top:'350px', backgroundColor:'green'}}>All Properties</Button>
+		<div class='mainTitle' style={{ display:'flex', position:'relative', flexDirection:"column", justifyContent:'flex-start', alignItems:'center', textAlign:'center', height:'94vh'}}>
+        	
+			<Typography variant='h1'>Find your next property in Real Estate</Typography><br/>
+			<Typography variant='h6'>Feel free to look arround, this is a sample project for my portfolio.</Typography>
+			<Button variant='contained' size="large" style={{backgroundColor:'green', top:'200px'}}>All Properties</Button>
 		</div>    
 	</>
   )
