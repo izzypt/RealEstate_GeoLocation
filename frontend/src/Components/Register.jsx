@@ -11,6 +11,7 @@ function Register() {
 	const [emailValue, setEmailValue] = useState("")
 	const [passwordValue, setPasswordValue] = useState("")
 	const [password2Value, setPassword2Value] = useState("")
+
 	const registerMe = () => {
 		console.log("I want to get registered")
 		fetch('http://127.0.0.1:8000/api-auth/users/', {
@@ -29,8 +30,13 @@ function Register() {
 	return (
 	<>
 		<MainNavBar/>
-		<Typography variant='h2' align='center' marginY={"15px"}>Create an Account</Typography>
-		<div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '3rem', top:"10%", border: '4px solid black', margin: "auto", width: "50%"}}>
+		<Typography 
+			variant='h2' 
+			align='center' 
+			marginY={"15px"}
+		> Create an Account </Typography>
+		<div 
+			style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '3rem', top:"10%", border: '4px solid black', margin: "auto", width: "50%"}}>
 			<TextField 
 				variant="outlined" 
 				fullWidth 
@@ -65,8 +71,19 @@ function Register() {
 				variant="outlined" 
 				sx={{ m: 1 }} 
 			/><br/>
-			<Button fullWidth type='submit' variant="contained" sx={{ m: 1 }} color={'success'} onClick={() => registerMe()}>Register</Button>
-			<Typography variant='small' sx={{marginTop: "15px"}}> Already have an account ? <Link to="/Login"><span style={{cursor: "pointer", color: "blue"}}>Sign in</span></Link></Typography>
+			<Button 
+				fullWidth 
+				type='submit' 
+				variant="contained" sx={{ m: 1 }} 
+				color={'success'} 
+				onClick={() => registerMe()}
+			> Register
+			</Button>
+			<Typography 
+				variant='small' 
+				sx={{marginTop: "15px"}}
+			> Already have an account ? <Link to="/Login"><span style={{cursor: "pointer", color: "blue"}}>Sign in</span></Link>
+			</Typography>
 		</div>
 	</>
 	)
