@@ -20,9 +20,14 @@ function MainNavBar() {
                 <Button color="inherit">Agencies</Button>
             </div>
             <div>
-                {GlobalState.userName.length == 0 ? true : `Welcome ${GlobalState.userName}!`}
-                <Button color="inherit" sx={{backgroundColor: 'green', color: 'white', marginLeft: '1rem', marginRight: '1rem', '&:hover': {backgroundColor: 'green'}}}>Add Property</Button>
-                {GlobalState.userName.length == 0 ? 
+                {GlobalState.userLoggedIn ? `Welcome ${GlobalState.userName}!` : true}
+                <Button 
+                    color="inherit" 
+                    sx={{backgroundColor: 'green', color: 'white', marginLeft: '1rem', marginRight: '1rem', '&:hover': {backgroundColor: 'green'}}}
+                >
+                    Add Property
+                </Button>
+                {GlobalState.userLoggedIn ? 
                     <Button 
                         onClick={() => {navigate("/login")}} 
                         color="inherit" 
@@ -32,7 +37,14 @@ function MainNavBar() {
                             marginLeft: '1rem',
                             '&:hover': {backgroundColor: 'white'} 
                         }}
-                    >Login</Button> : <Button sx={{backgroundColor: 'white'}} >Logout<LogoutIcon/></Button>
+                    >
+                        Login
+                    </Button> : 
+                    <Button 
+                        sx={{backgroundColor: 'white'}} 
+                    >
+                        Logout<LogoutIcon/>
+                    </Button>
                 }
             </div>
         </Toolbar>

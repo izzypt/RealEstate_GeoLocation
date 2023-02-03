@@ -18,7 +18,6 @@ function Login() {
     const navigate = useNavigate()
 
     const LogmeIn = () => {
-        console.log("Please log me in, Sir, as ", usernameValue, passwordValue)
 		fetch('http://127.0.0.1:8000/api-auth/token/login/', {
  			method: "POST",
 			body: JSON.stringify({
@@ -28,29 +27,28 @@ function Login() {
 			headers: {"Content-type": "application/json; charset=UTF-8"}
 		}).then(response => response.json()) 
 		.then(data => {
-            console.log(data)
             setToken(data.auth_token)
+            GlobalDispatch({type:'catchToken', tokenValue: data.auth_token})
+            
         })
 		.catch(err => console.log(err));
     }
 
     useEffect(() => {
         if (token) {
-            console.log("token value is ", token)
-            navigate("/")
-            GlobalDispatch({type:'userLoggedIn'})
+            getUserInfo().then(navigate("/"))
             console.log(GlobalState)
         }
     }, [token])
 
-    const getUser = () => {
+    const getUserInfo = async () => {
         fetch('http://127.0.0.1:8000/api-auth/users/me/', {
             method: 'GET',
             headers: {
                 'Authorization': 'Token '.concat(token),
             }}).then(response => response.json())
             .then(json => {
-                console.log(json)
+                GlobalDispatch({type:'catchUserInfo', userInfo: json})
                 return json
             })
     }
@@ -87,7 +85,6 @@ function Login() {
                 >LOGIN</Button>
                 <Typography variant='small' sx={{marginTop: "15px"}} > Don't have an account ? <Link to="/Register"><span style={{cursor: "pointer", color: "blue"}}>Register here</span></Link></Typography>
             </div>
-            {GlobalState.globalMessage}
         </>
     )
 }
