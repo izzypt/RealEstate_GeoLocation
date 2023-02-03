@@ -7,14 +7,15 @@ import Button from '@mui/material/Button';
 import bridge_night from '../assets/bridge_night.jpg'
 import MainNavBar from './MainNavBar';
 
+
 function Home() {
   return (
     <>
 		<MainNavBar/>
-		<div class='mainTitle' style={{ display:'flex', position:'relative', flexDirection:"column", justifyContent:'flex-start', alignItems:'center', textAlign:'center', height:'94vh'}}>
+		<div className='mainTitle' style={{ display:'flex', position:'relative', flexDirection:"column", justifyContent:'flex-start', alignItems:'center', textAlign:'center', height:'94vh'}}>
         	
 			<Typography variant='h1'>Find your next property in Real Estate</Typography><br/>
-			<Typography variant='h6'>Feel free to look arround, this is a sample project for my portfolio.</Typography>
+			<Typography variant='subtitle1' style={{color:'red'}}>This is merely a sample project.<br/> It was built using React on the frontend and Django in the backend.It stores the data in a PostGres DB<br/> For more, contact me: smmbonvalot@gmail.com</Typography>
 			<Button variant='contained' size="large" style={{backgroundColor:'green', top:'200px'}}>All Properties</Button>
 		</div>    
 	</>

@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { AppBar, Typography, Icon } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import StateContext from '../Contexts/StateContext';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function MainNavBar() {
     const navigate = useNavigate()
+    const GlobalState = useContext(StateContext)
   return (
     <AppBar position="static" style={{backgroundColor:'black'}}>
         <Toolbar sx={{display:'flex', justifyContent:'space-between'}}>
@@ -17,8 +20,20 @@ function MainNavBar() {
                 <Button color="inherit">Agencies</Button>
             </div>
             <div>
-                <Button color="inherit" sx={{backgroundColor: 'green', color: 'white', marginRight: '1rem', '&:hover': {backgroundColor: 'green'}}}>Add Property</Button>
-                <Button onClick={() => {navigate("/login")}} color="inherit" sx={{backgroundColor: 'white', color: 'black', marginLeft: '1rem','&:hover': {backgroundColor: 'white'} }}>Login</Button>
+                {GlobalState.userName.length == 0 ? true : `Welcome ${GlobalState.userName}!`}
+                <Button color="inherit" sx={{backgroundColor: 'green', color: 'white', marginLeft: '1rem', marginRight: '1rem', '&:hover': {backgroundColor: 'green'}}}>Add Property</Button>
+                {GlobalState.userName.length == 0 ? 
+                    <Button 
+                        onClick={() => {navigate("/login")}} 
+                        color="inherit" 
+                        sx={{
+                            backgroundColor: 'white', 
+                            color: 'black', 
+                            marginLeft: '1rem',
+                            '&:hover': {backgroundColor: 'white'} 
+                        }}
+                    >Login</Button> : <Button sx={{backgroundColor: 'white'}} >Logout<LogoutIcon/></Button>
+                }
             </div>
         </Toolbar>
     </AppBar>

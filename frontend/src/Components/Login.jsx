@@ -1,15 +1,21 @@
-import React from 'react'
-import TextField from '@mui/material/TextField';
-import { Button, Typography } from "@mui/material"
-import { useState } from 'react';
+//React and react-router-dom
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+// MUI
+import { Button, Typography, TextField } from "@mui/material"
+//COMPONENTS
 import MainNavBar from './MainNavBar';
-import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+//CONTEXTS
+import DispatchContext from '../Contexts/DispatchContext';
+import StateContext from '../Contexts/StateContext';
 
 function Login() {
     const [usernameValue, setUsernameValue] = useState("")
 	const [passwordValue, setPasswordValue] = useState("")
     const [token, setToken] = useState("")
+    const GlobalDispatch = useContext(DispatchContext);
+    const GlobalState = useContext(StateContext);
+    const navigate = useNavigate()
 
     const LogmeIn = () => {
         console.log("Please log me in, Sir, as ", usernameValue, passwordValue)
@@ -31,7 +37,9 @@ function Login() {
     useEffect(() => {
         if (token) {
             console.log("token value is ", token)
-            getUser()
+            navigate("/")
+            GlobalDispatch({type:'userLoggedIn'})
+            console.log(GlobalState)
         }
     }, [token])
 
@@ -43,6 +51,7 @@ function Login() {
             }}).then(response => response.json())
             .then(json => {
                 console.log(json)
+                return json
             })
     }
 
@@ -78,6 +87,7 @@ function Login() {
                 >LOGIN</Button>
                 <Typography variant='small' sx={{marginTop: "15px"}} > Don't have an account ? <Link to="/Register"><span style={{cursor: "pointer", color: "blue"}}>Register here</span></Link></Typography>
             </div>
+            {GlobalState.globalMessage}
         </>
     )
 }
