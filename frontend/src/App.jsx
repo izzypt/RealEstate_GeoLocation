@@ -34,6 +34,9 @@ function App() {
 				state.userEmail = action.userInfo.email;
 				state.userLoggedIn = true;
 				break;
+			case 'userLoggedOut':
+				state.userLoggedIn = false;
+				break;
 		}
 	}
 
@@ -43,6 +46,12 @@ function App() {
 			localStorage.setItem('email', state.userEmail)
 			localStorage.setItem('userID', state.userId)
 			localStorage.setItem('userToken', state.userToken)
+		}
+		else{
+			localStorage.removeItem('username')
+			localStorage.removeItem('email')
+			localStorage.removeItem('userID')
+			localStorage.removeItem('userToken')
 		}
 	}, [state.userLoggedIn])
  

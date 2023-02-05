@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { Icon } from "leaflet"
 import { Grid, AppBar, Button, Card, CardMedia, CardHeader, CardContent, CardActions, Typography, IconButton } from '@mui/material'
@@ -16,7 +16,15 @@ function Listings() {
 	{/* <-- STATE --> */}	
 	const [latitude, setLatitude] = useState(51.505)
 	const [longitude, setLongitude] = useState(-0.09)
+	const [allListings, setAllListings] = useState([])
 
+	useEffect(() => {
+		const getAllListings = async () => {
+			const listings = await fetch('http://127.0.0.1:8000/listings/').then(response => response.json()).then(data => setAllListings(data))
+			console.log("alLlistings: ", allListings)
+		}
+		getAllListings()
+	}, [])
 	{/* <-- LOGIC --> */}
 	function iconDisplay(listing){
 		if (listing.listing_type == 'House')
@@ -47,7 +55,7 @@ function Listings() {
 		<MainNavBar/>
 		<Grid container>
 			<Grid item xs={4}>
-				{myListings.map(listing => {
+				{allListings.map(listing => {
 					return (
 						<Card key={listing.id} style={{margin:'1rem', border:'1px solid black'}}>
 							<CardHeader
@@ -62,7 +70,7 @@ function Listings() {
 							<CardMedia
 								component="img"
 								height="194"
-								image={listing.image}
+								image={listing.picture}
 								alt="Paella dish"
 								style={{paddingRight:'1rem', paddingLeft:'1rem', height:'20rem', width:'35rem'}}
 							/>
@@ -91,11 +99,11 @@ function Listings() {
 							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 						/>
-						{myListings.map(listing => {
+						{allListings.map(listing => {
 							return (
-								<Marker key={listing.id} icon={iconDisplay(listing)} position={[listing.location.coordinates[0], listing.location.coordinates[1]]}>
+								<Marker key={listing.id} icon={iconDisplay(listing)} position={[listing.latitude ? listing.latitude : 0, listing?.longitude ? listing.longitude : 0]}>
 									<Popup>
-										<img src={listing.image} style={{height:'8rem', width: '10rem'}}/><br/>
+										<img src={listing.picture} style={{height:'8rem', width: '10rem'}}/><br/>
 										<p style={{margin:"4px"}}>Description: {listing.description.substring(0, 150) + '...'}</p>
 										<p style={{margin:"4px"}}>Price : {listing.price}$</p>
 										<Button variant="contained" fullWidth style={{margin:"auto"}}>More</Button>

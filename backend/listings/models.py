@@ -1,18 +1,22 @@
 from django.utils import timezone
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Create your models here.
 class Listing(models.Model):
+    #location = models.PointField(blank=True, null=True, srid=4326) #SRID stands for spatial reference Identifier
     title = models.CharField(max_length=50)
-    location = models.PointField(blank=True, null=True, srid=4326) #SRID stands for spatial reference Identifier
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     description = models.TextField(null=True, blank=True)
     choices_area = (
         ('Inner London', 'Inner London'),
         ('Inner London', 'Inner London'),
     )
     area = models.CharField(max_length=20, blank=True, null=True, choices=choices_area)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
     borough = models.CharField(max_length=50, blank=True, null=True)
     choices_listing_type = (
         ('House', 'House'),
@@ -38,6 +42,7 @@ class Listing(models.Model):
     elevator = models.BooleanField(default=False)
     cctv = models.BooleanField(default=False)
     parking = models.BooleanField(default=False)
+    picture = models.ImageField(null=True, blank=True)
     date_posted = models.TimeField(default=timezone.now)
 
     def __str__(self) -> str:
