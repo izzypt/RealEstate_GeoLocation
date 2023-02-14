@@ -11,8 +11,9 @@ class Listing(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     description = models.TextField(null=True, blank=True)
     choices_area = (
-        ('Inner London', 'Inner London'),
-        ('Inner London', 'Inner London'),
+        ('Lisboa Centro', 'Lisboa Centro'),
+        ('Lisboa Oeste', 'Lisboa Oeste'),
+        ('Lisboa Este', 'Lisboa Este'),
     )
     area = models.CharField(max_length=20, blank=True, null=True, choices=choices_area)
     latitude = models.FloatField(blank=True, null=True)
@@ -43,7 +44,8 @@ class Listing(models.Model):
     cctv = models.BooleanField(default=False)
     parking = models.BooleanField(default=False)
     picture = models.ImageField(null=True, blank=True)
-    date_posted = models.TimeField(default=timezone.now)
+    picture2 = models.ImageField(null=True, blank=True)
+    date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
         return self.title

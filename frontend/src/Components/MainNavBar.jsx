@@ -76,6 +76,7 @@ function MainNavBar() {
                     <Typography level="body1" component={"span"} fontWeight={600} sx={{margin:'1rem'}}>Welcome {GlobalState.userName}!</Typography>
                     <Button 
                         color="inherit" 
+                        onClick={() => {navigate("/addproperty")}}
                         sx={{backgroundColor: 'green', fontWeight: 600, color: 'white', marginLeft: '1rem', marginRight: '1rem', '&:hover': {backgroundColor: 'green'}}}
 
                     >

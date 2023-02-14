@@ -7,6 +7,7 @@ import Register from './Components/register'
 import Login from './Components/Login'
 import Listings from './Components/Listings'
 import { useImmerReducer } from "use-immer";
+import AddProperty from './Components/AddProperty'
 // Contexts
 import DispatchContext from './Contexts/DispatchContext'
 import StateContext from './Contexts/StateContext'
@@ -57,7 +58,7 @@ function App() {
  
 	
 	return (
-	<div className="App">
+	<div style={{height:"100%"}}>
 		<StateContext.Provider value={state}>
 		<DispatchContext.Provider value={dispatch}>
 			<BrowserRouter>
@@ -66,6 +67,7 @@ function App() {
 					<Route path="/Login" element={<Login/>}/>
 					<Route path="/Register" element={<Register/>}/>
 					<Route path="/listings" element={<Listings/>}/>
+					<Route path="/addproperty" element={<AddProperty/>}/>
 				</Routes>
 			</BrowserRouter>
 		</DispatchContext.Provider>
