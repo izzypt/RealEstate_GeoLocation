@@ -114,6 +114,7 @@ const AddProperty = () => {
 				state.sendRequest = state.sendRequest + 1;
 				break;
 		}
+
 	}
 
 	/* MAP COMPONENT to retrieve data and methods from map object */
@@ -566,7 +567,7 @@ const AddProperty = () => {
 						<Grid item container justifyContent="space-around">
 							<Button fullWidth variant="contained" sx={{fontWeight:600, my:1}} xs={8} onClick={submitForm}>Submit</Button>
 						</Grid>
-						<Button onClick={() => console.log(state.uploadedPicture)}>Test</Button>
+						{/*<Button onClick={() => console.log(state.uploadedPicture)}>Test</Button>*/}
 					</CardContent>
 				</Card>
 		</div>

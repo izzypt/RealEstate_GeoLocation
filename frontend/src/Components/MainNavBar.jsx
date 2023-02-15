@@ -12,17 +12,20 @@ function MainNavBar() {
     const GlobalDispatch = useContext(DispatchContext)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const openProfileMenu = (event) => {
-      setAnchorEl(event.currentTarget);
+    const handleClick = (event) => {
+        console.log(event.currentTarget)
+        setAnchorEl(event.currentTarget);
     };
-    const closeProfileMenu = () => {
-      setAnchorEl(null);
-    };
-    const logMeOut = async () => {
+    const handleClose = () => {
+        console.log("close menu")
         setAnchorEl(null);
-        console.log(GlobalState.userToken)
+        console.log(anchorEl)
+    };
+
+    const logMeOut = async () => {
         const confirmedLogOut = window.confirm("Are you sure you want to logout?")
         if (confirmedLogOut){
+            handleClose()
             const response = await Axios.post('http://127.0.0.1:8000/api-auth/token/logout/', GlobalState.userToken,
                 {
                     headers: {
@@ -37,18 +40,40 @@ function MainNavBar() {
   return (
     <AppBar position="static" style={{backgroundColor:'black'}}>
         <Toolbar sx={{display:'flex', justifyContent:'space-between'}}>
-            <Typography variant="h5" component="div" sx={{cursor: "pointer", fontWeight: 600}} onClick={() => {navigate("/")}}>
+            <Typography 
+                variant="h5" 
+                component="div" 
+                sx={{cursor: "pointer", 
+                fontWeight: 600}} 
+                onClick={() => {navigate("/")}}
+            >
                 RealEstate 
             </Typography>
             <div>
-                <Button color="inherit" sx={{fontWeight: 600}} onClick={() => {navigate("/listings")}}>Listings</Button>
-                <Button color="inherit" sx={{fontWeight: 600}} >Agencies</Button>
+                <Button 
+                    color="inherit" 
+                    sx={{fontWeight: 600}} 
+                    onClick={() => {navigate("/listings")}}
+                >
+                    Listings
+                </Button>
+                <Button 
+                    color="inherit" 
+                    sx={{fontWeight: 600}} 
+                >
+                    Agencies
+                </Button>
             </div>
             <div>
                 {GlobalState.userLoggedIn ? 
                 <>
+                    {/* User Icon*/}
                     <IconButton
-                        onClick={openProfileMenu}  
+                        id="basic-button"
+                        onClick={handleClick}
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}                
                         sx={{ 
                             backgroundColor: 'inherit',
                             marginLeft: '0.5rem',
@@ -59,21 +84,39 @@ function MainNavBar() {
                             fontSize="large" 
                             color='success'
                         />
-                        <Menu
+                    </IconButton>
+                    {/* Menu */}
+                    <Menu
                             id="basic-menu"
                             anchorEl={anchorEl}
                             open={open}
-                            onClose={closeProfileMenu}
+                            onClose={handleClose}
                             MenuListProps={{
                             'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={closeProfileMenu}>Profile</MenuItem>
-                            <MenuItem onClick={closeProfileMenu}>My account</MenuItem>
-                            <MenuItem onClick={logMeOut}>Logout</MenuItem>
-                        </Menu>
-                    </IconButton>
-                    <Typography level="body1" component={"span"} fontWeight={600} sx={{margin:'1rem'}}>Welcome {GlobalState.userName}!</Typography>
+                        <MenuItem
+                            onClick={() => {
+                                navigate("/myProfile")
+                                handleClose()
+                            }}
+                        >
+                            Profile
+                        </MenuItem>
+                        <MenuItem 
+                            onClick={logMeOut}
+                        >
+                            Logout
+                        </MenuItem>
+                    </Menu>
+                    <Typography 
+                        level="body1" 
+                        component={"span"} 
+                        fontWeight={600} 
+                        sx={{margin:'1rem'}}
+                    >
+                        Welcome {GlobalState.userName}!
+                    </Typography>
                     <Button 
                         color="inherit" 
                         onClick={() => {navigate("/addproperty")}}
