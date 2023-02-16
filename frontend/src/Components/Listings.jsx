@@ -1,5 +1,6 @@
 //REACT
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 //Leaflet
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import { Icon } from "leaflet"
@@ -16,12 +17,17 @@ import office_icon from '../assets/office_icon.png'
 //Packages
 import moment from 'moment'
 import { useImmerReducer } from 'use-immer'
+// Contexts
+import StateContext from '../Contexts/StateContext';
+import DispatchContext from '../Contexts/DispatchContext';
 
 function Listings() {
 	/* ---> STATE HANDLING <--- */
 	const initialState = {
 		mapInstance: null,
 	}
+	const GlobalState = useContext(StateContext)
+	const navigate = useNavigate()
 	const [latitude, setLatitude] = useState(38.70715)
 	const [longitude, setLongitude] = useState(-9.13549)
 	const [allListings, setAllListings] = useState([])
@@ -50,6 +56,12 @@ function Listings() {
 		}
 		getAllListings()
 	}, [])
+
+	useEffect(() => {
+		if(!GlobalState.userLoggedIn)
+			navigate('/notAllowed')
+	}, [GlobalState.userLoggedIn])
+
 
 	{/* <-- LOGIC --> */}
 	function iconDisplay(listing){
@@ -80,7 +92,6 @@ function Listings() {
 	<>
 		{/* <-- NAVBAR --> */}
 		<MainNavBar/>
-		{console.log("allListings: ", allListings)}
 		<Grid container>
 			<Grid item xs={4}>
 				{allListings.map(listing => {

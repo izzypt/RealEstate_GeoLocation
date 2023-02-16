@@ -9,6 +9,7 @@ import Listings from './Components/Listings'
 import { useImmerReducer } from "use-immer";
 import AddProperty from './Components/AddProperty'
 import Profile from './Components/Profile'
+import SecondComponent from './Components/SecondComponent'
 // Contexts
 import DispatchContext from './Contexts/DispatchContext'
 import StateContext from './Contexts/StateContext'
@@ -70,6 +71,7 @@ function App() {
 					<Route path="/listings" element={<Listings/>}/>
 					<Route path="/addproperty" element={<AddProperty/>}/>
 					<Route path="/myProfile" element={<Profile/>}/>
+					<Route path="/notAllowed" element={<SecondComponent/>}/>
 				</Routes>
 			</BrowserRouter>
 		</DispatchContext.Provider>

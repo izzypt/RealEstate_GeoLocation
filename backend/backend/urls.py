@@ -25,7 +25,8 @@ urlpatterns = [
     path('listings/', listings_views.ListingList.as_view()),
     path('listings/create/', listings_views.ListingCreate.as_view()),
     path('profiles/', users_views.ProfileListView.as_view()),
-    path('profiles/<int:pk>/', users_views.ProfileDetailView.as_view()),
+    path('profiles/<int:profile_owner>/', users_views.ProfileDetailView.as_view()),
+    path('profiles/<int:profile_owner>/update/', users_views.ProfileUpdateView.as_view()),
     path('api-auth/', include('djoser.urls')),
     path('api-auth/', include('djoser.urls.authtoken')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
