@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import { Icon } from "leaflet"
 //MUI
-import { Grid, AppBar, Divider, Button, Card, CardMedia, CardHeader, CardContent, CardActions, Typography, IconButton } from '@mui/material'
+import { Grid, AppBar, Divider, Button, Card, CardHeader, CardMedia, CardContent, CardActions, Typography, IconButton } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExploreIcon from '@mui/icons-material/Explore';
 //Components
 import MainNavBar from './MainNavBar'
+//Icons
 import house_icon from '../assets/bighouse.png'
 import apartment_icon from '../assets/apartment_icon.png'
 import office_icon from '../assets/office_icon.png'
@@ -93,10 +94,11 @@ function Listings() {
 		{/* <-- NAVBAR --> */}
 		<MainNavBar/>
 		<Grid container>
-			<Grid item xs={4}>
+			{/* <-- LISTINGS --> */}
+			<Grid item xs={5}>
 				{allListings.map(listing => {
 					return (
-						<Card key={listing.id} style={{margin:'1rem', border:'1px solid black'}}>
+						<Card key={listing.id} style={{margin:'1rem', border:'1px solid black', padding: '1rem'}}>
 							<CardHeader
 								action={
 								<IconButton aria-label="settings" onClick={() => state.mapInstance.flyTo([listing.latitude, listing.longitude], 16)}>
@@ -110,37 +112,23 @@ function Listings() {
 								component="img"
 								height="194vh"
 								image={listing.picture}
-								alt="Paella dish"
-								style={{paddingRight:'1rem', paddingLeft:'1rem', height:'20rem', width:'35rem'}}
+								alt="Property picture"
+								style={{paddingRight:'1rem', paddingLeft:'1rem', height:'20rem', width:'95%', justifyContent:'center', alignItems:'center'}}
+
 							/>
-							<CardContent>
+							<CardContent sx={{backgroundColor:'rgba(176, 190, 197, 0.2)', marginTop:'1rem'}}>
 								<Typography variant="body2" color="text.secondary">
 									{listing.description}
 								</Typography>
 							</CardContent>
-							<CardActions sx={{display:'flex', flexDirection: 'row'}} disableSpacing>
-								<Grid sx={{display: 'flex', flexDirection:'row'}}>
-									<Grid item>
-										<IconButton aria-label="add to favorites">
-											<FavoriteIcon />
-										</IconButton>
-									</Grid>
-									<Grid item xs={{marginRight:"20%"}}>
-										<IconButton aria-label="share">
-											<ShareIcon />
-										</IconButton>
-									</Grid>
-								</Grid>
-							</CardActions>
 						</Card>
 					)
 				})}
-
 			</Grid>
-			<Grid item xs={8}>
+			<Grid item xs={7}>
 				{/* <-- MAP --> */}
 				<AppBar position='sticky'>
-					<MapContainer style={{height:"93vh"}} center={[latitude, longitude]} zoom={13} scrollWheelZoom={false}>
+					<MapContainer style={{height:"100vh"}} center={[latitude, longitude]} zoom={13} scrollWheelZoom={false}>
 						<MapComponent/>
 						<TileLayer
 							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -148,12 +136,25 @@ function Listings() {
 						/>
 						{allListings.map(listing => {
 							return (
-								<Marker key={listing.id} icon={iconDisplay(listing)} position={[listing.latitude ? listing.latitude : 0, listing?.longitude ? listing.longitude : 0]}>
+								<Marker 
+									key={listing.id} 
+									icon={iconDisplay(listing)} 
+									position={[listing.latitude ? listing.latitude : 0, listing?.longitude ? listing.longitude : 0]}
+								>
 									<Popup>
-										<img src={listing.picture} style={{height:'8rem', width: '10rem'}}/><br/>
-										<p style={{margin:"4px"}}>Description: {listing.description.substring(0, 150) + '...'}</p>
-										<p style={{margin:"4px"}}>Price : {listing.price}€</p>
-										<Button variant="contained" fullWidth style={{margin:"auto"}}>More</Button>
+										<img 
+											src={listing.picture} 
+											style={{height:'8rem', width: '10rem'}}
+										/><br/>
+										<p style={{margin:"4px"}}> Description: {listing.description.substring(0, 100) + '(...)'}</p>
+										<p style={{margin:"4px"}}> Price : {listing.price}€</p>
+										<Button 
+											variant="contained" 
+											fullWidth 
+											style={{margin:"auto"}}
+										>
+											More
+										</Button>
 									</Popup>
 								</Marker>
 							)

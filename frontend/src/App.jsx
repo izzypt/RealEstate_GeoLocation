@@ -10,6 +10,8 @@ import { useImmerReducer } from "use-immer";
 import AddProperty from './Components/AddProperty'
 import Profile from './Components/Profile'
 import SecondComponent from './Components/SecondComponent'
+import Agencies from './Components/Agencies'
+import AgencyDetail from './Components/AgencyDetail'
 // Contexts
 import DispatchContext from './Contexts/DispatchContext'
 import StateContext from './Contexts/StateContext'
@@ -72,6 +74,8 @@ function App() {
 					<Route path="/addproperty" element={<AddProperty/>}/>
 					<Route path="/myProfile" element={<Profile/>}/>
 					<Route path="/notAllowed" element={<SecondComponent/>}/>
+					<Route path="/Agencies" element={<Agencies/>}/>
+					<Route path="/Agencies/:id" element={<AgencyDetail/>}/>
 				</Routes>
 			</BrowserRouter>
 		</DispatchContext.Provider>

@@ -60,6 +60,7 @@ function MainNavBar() {
                 <Button 
                     color="inherit" 
                     sx={{fontWeight: 600}} 
+                    onClick={() => {navigate("/Agencies")}}
                 >
                     Agencies
                 </Button>

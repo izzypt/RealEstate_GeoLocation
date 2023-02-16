@@ -1,4 +1,5 @@
 .mainTitle{
     color: white;
     background: url('../assets/bridge_night.jpg');
+    background-size: cover;
 }
