@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 // MUI
-import { Card, CardHeader, Button, Typography, TextField } from "@mui/material"
+import { Card, CardHeader, Button, Typography, TextField, Snackbar } from "@mui/material"
 //COMPONENTS
 import MainNavBar from './MainNavBar';
 //CONTEXTS
@@ -13,6 +13,7 @@ function Login() {
     const [usernameValue, setUsernameValue] = useState("")
 	const [passwordValue, setPasswordValue] = useState("")
     const [token, setToken] = useState("")
+    const [dialogOpen, setDialogOpen] = useState(false);
     const GlobalDispatch = useContext(DispatchContext);
     const GlobalState = useContext(StateContext);
     const navigate = useNavigate()
@@ -29,7 +30,6 @@ function Login() {
 		.then(data => {
             setToken(data.auth_token)
             GlobalDispatch({type:'catchToken', tokenValue: data.auth_token})
-            
         })
 		.catch(err => console.log(err));
     }
@@ -52,6 +52,10 @@ function Login() {
                 return json
             })
     }
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+      };
 
     return (
         <>
@@ -90,6 +94,14 @@ function Login() {
                         <div style={{textAlign:'center'}}>
                             <Typography variant='small' sx={{marginTop: "15px", textAlign:"center"}} > Don't have an account ? <Link to="/Register"><span style={{cursor: "pointer", color: "blue"}}>Register here</span></Link></Typography>
                         </div>
+                        <Snackbar
+                            open={dialogOpen}
+                            autoHideDuration={6000}
+                            onClose={handleDialogClose}
+                            message="Login Successfull"
+                            severity="success"
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                        />
                 </Card>
             </div>
         </>

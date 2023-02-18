@@ -79,48 +79,50 @@ function Agencies() {
 				>
 					List
 				</Divider>
-				<Box sx={{ display:'flex', flexDirection:'row', justifyContent:'space-evenly'}}>
+				<Grid container spacing={3}>
 					{agencies.map((agency, index) => {
 						return (
 							<>
-								<Card key={index} variant='outlined' sx={{ maxWidth: 345, margin: '1rem', flex: '0 0 calc(33.33% - 2rem)' }}>
-									<CardMedia
-										component="img"
-										alt="Agency Picture"
-										height="140"
-										image={agency.picture}
-									/>
-									<CardContent>
-										<Typography 
-											gutterBottom 
-											variant="h5" 
-											component="div"
-										>
-											{agency.agency_name ? agency.agency_name : "(No Name provided)"}
-										</Typography>
-										<Typography 
-											variant="body2" 
-											color="text.secondary"
-										>
-											{agency.bio ? agency.bio : "(No bio provided)"}
-										</Typography>
-									</CardContent>
-									<CardActions>
-										<Button 
-											size="small"
-											onClick={() => {
-												navigate(`/Agencies/${agency.profile_owner}`)
-											}}
-										>
-											{agency.profile_owner_listings.length == 1 ? "1 property listed" : `${agency.profile_owner_listings.length} properties listed` } 
-											
-										</Button>
-									</CardActions>
-								</Card>
+								<Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+									<Card key={index} variant='outlined' sx={{ maxWidth: 345, margin: '1rem', flexWrap:'wrap'}}>
+										<CardMedia
+											component="img"
+											alt="Agency Picture"
+											height="140"
+											image={agency.picture}
+										/>
+										<CardContent>
+											<Typography 
+												gutterBottom 
+												variant="h5" 
+												component="div"
+											>
+												{agency.agency_name ? agency.agency_name : "(No Name provided)"}
+											</Typography>
+											<Typography 
+												variant="body2" 
+												color="text.secondary"
+											>
+												{agency.bio ? agency.bio : "(No bio provided)"}
+											</Typography>
+										</CardContent>
+										<CardActions>
+											<Button 
+												size="small"
+												onClick={() => {
+													navigate(`/Agencies/${agency.profile_owner}`)
+												}}
+											>
+												{agency.profile_owner_listings.length == 1 ? "1 property listed" : `${agency.profile_owner_listings.length} properties listed` } 
+												
+											</Button>
+										</CardActions>
+									</Card>
+								</Grid>
 							</>
 						)
 					})}
-				</Box>
+				</Grid>
 			</Card>
 		</Box>
 	</>

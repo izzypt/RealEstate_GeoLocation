@@ -2,7 +2,7 @@
 import react, { useReducer, useState, useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 //MUI
-import { Box, Grid, Card, CardMedia, CardHeader, CardContent, CardActions,  InputAdornment , TextField, Button, Tooltip , Divider, Typography, IconButton, Breadcrumbs, Link } from "@mui/material";
+import { Box, Grid, Card, CardMedia, CardHeader, CardContent, CardActions,  InputAdornment , TextField, Button, Tooltip , Divider, Typography, IconButton, Breadcrumbs, Link, Snackbar } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import anonymous_user from '../assets/anonymous_user.png'
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 //Components
 import MainNavBar from './MainNavBar';
+import UpdateListingDialog from "./UpdateListingDialog";
 //Context
 import StateContext from "../Contexts/StateContext";
 import { textAlign } from "@mui/system";
@@ -23,6 +24,9 @@ function Profile() {
 	const [avatar, setAvatar] = useState(null);
 	const [userListings, setUserListings] = useState([]);
 	const [editMode, setEditMode] = useState(true);
+	const [openUpdate, setOpenUpdate] = useState(false)
+	const [dialogOpen, setDialogOpen] = useState(false);
+	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const navigate = useNavigate();
 	const GlobalState = useContext(StateContext);
 
@@ -43,6 +47,11 @@ function Profile() {
 		}
 	};
 
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+		setTimeout(window.location.reload(), 1500);
+	};
+
 	const deleteListingHandler = async (listingId) =>{ 
 		console.log(listingId)
 		if(window.confirm("Are you sure you want to delete this listing?\nThis action is irreversible")){
@@ -54,9 +63,12 @@ function Profile() {
 						'Accept': 'application/json'
 					}
 				});
-				const data = await response.json();
-				if(data.success){
-					alert("Listing deleted successfully");
+				if (response.ok) {
+					setSnackbarMessage("Successfully deleted listing. Will reload page in 2 seconds.");
+					setDialogOpen(true);
+				} else {
+
+					console.log('Error');
 				}
 			}	
             catch(err){
@@ -88,6 +100,10 @@ function Profile() {
 		getuserProfile()
 	}, []);
 
+	function handleUpdateDialogClose() {
+		setOpenUpdate(false);
+	  }
+
 	const saveProfile = () => {
 		async function submitProperty(){
 			try {
@@ -97,14 +113,13 @@ function Profile() {
 				formData.append("bio", bio);
 				if (image)
 					formData.append("picture", image);
-				console.log(agencyName, phone, bio, image);
-				console.table([...formData])
 				const response = await fetch(`http://127.0.0.1:8000/profiles/${GlobalState.userId}/update/`, {
 					method: 'PATCH',
 					body: formData,
 				}).then(res => res.json()).then(res => {
-					console.log(res)
                     setEditMode(true);
+					setSnackbarMessage("Saved user profile.");
+					setDialogOpen(true);
                 })
 			} catch (e) {
 				console.log(e.response)
@@ -258,7 +273,8 @@ function Profile() {
 											<CardHeader 
 												action={
 													<>
-														<ModeEditIcon sx={{mx:1, ":hover":{cursor:"pointer"}}} />
+														<ModeEditIcon sx={{mx:1, ":hover":{cursor:"pointer"}}} onClick={() => {setOpenUpdate(!openUpdate)}} />
+														<UpdateListingDialog open={openUpdate} onClose={handleUpdateDialogClose} property={listing}/>
 														<DeleteIcon color="error" sx={{":hover":{cursor:"pointer"}}} onClick={() => deleteListingHandler(listing.id)}/>
 													</>
 												}
@@ -283,6 +299,14 @@ function Profile() {
 				</CardContent>
 			</Card>
 		</Box>
+		<Snackbar
+			open={dialogOpen}
+			autoHideDuration={6000}
+			onClose={handleDialogClose}
+			message={snackbarMessage}
+			severity="success"
+			anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+		/>
 	</>
 )
 }

@@ -43,16 +43,18 @@ function Listings() {
 	}
 
 	/* MAP COMPONENT to retrieve data and methods from map object */
-	const MapComponent = () => {
+	const MapComponent = ({ dispatch }) => {
 		const map = useMap();
-		dispatch({type: 'getMap', mapData: map});
+		useEffect(() => {
+			dispatch({ type: 'getMap', mapData: map });
+		  }, [dispatch, map]);
+		  return null;
 		return null;
 	}
 
 	useEffect(() => {
 		const getAllListings = async () => {
 			const listings = await fetch('http://127.0.0.1:8000/listings/').then(response => response.json()).then(data => setAllListings(data))
-			console.log("alLlistings: ", allListings)
 		}
 		getAllListings()
 	}, [])
@@ -160,7 +162,7 @@ function Listings() {
 				{/* <-- MAP --> */}
 				<AppBar position='sticky'>
 					<MapContainer style={{height:"100vh"}} center={[latitude, longitude]} zoom={13} scrollWheelZoom={false}>
-						<MapComponent/>
+						<MapComponent dispatch={dispatch} />
 						<TileLayer
 							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -175,14 +177,15 @@ function Listings() {
 									<Popup>
 										<img 
 											src={listing.picture} 
-											style={{height:'8rem', width: '10rem'}}
+											style={{height:'95%', width: '95%'}}
 										/><br/>
-										<p style={{margin:"4px"}}> Description: {listing.description.substring(0, 100) + '(...)'}</p>
-										<p style={{margin:"4px"}}> Price : {listing.price}€</p>
+										<p style={{backgroundColor:'rgba(176, 190, 197, 0.2)', padding:"0.5rem", margin:'0', borderBottom: '1px solid black'}}> {listing.description.substring(0, 100) + '(...)'}</p>
+										<p style={{backgroundColor:'rgba(176, 190, 197, 0.2)', padding:"0.5rem", margin:'0', borderBottom: '1px solid black'}}> {listing.property_status === "Rent" ? (`${listing.property_status} / ${listing.rental_frequency}`) : `${listing.property_status}` }</p>
+										<p style={{backgroundColor:'rgba(176, 190, 197, 0.2)', padding:"0.5rem", margin:'0', borderBottom: '1px solid black'}}> {listing.price}€</p>
 										<Button 
 											variant="contained" 
 											fullWidth 
-											style={{margin:"auto"}}
+											style={{margin:"auto", marginTop:'1rem'}}
 											onClick={() => navigate(`/listings/${listing.id}`)}
 										>
 											More

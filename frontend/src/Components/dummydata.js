@@ -1,7 +1,7 @@
 const rentalFrequencyOptions = [
     {
-        value: "Month",
-        label: "Month"
+        value: null,
+        label: ""
     },
     {
         value: "Week",
@@ -11,9 +11,17 @@ const rentalFrequencyOptions = [
         value: "Day",
         label: "Day"
     },
+    {
+        value: "Month",
+        label: "Month"
+    },
 ]
 
 const propertyStatusOptions = [
+    {
+        value: null,
+        label: ""
+    },
     {
         value: "Sale",
         label: "Sale"
@@ -26,7 +34,7 @@ const propertyStatusOptions = [
 
 const areaOptions = [
     {
-        value: "",
+        value: null,
         label: ""
     },
     {
@@ -45,6 +53,10 @@ const areaOptions = [
 ]
 
 const LisboaCentroOptions = [
+    {
+        value: null,
+        label: ""
+    },
     {
         value: "Avenidas Novas",
         label: "Avenidas Novas"
@@ -65,6 +77,10 @@ const LisboaCentroOptions = [
 
 const LisboaOesteOptions = [
     {
+        value: null,
+        label: ""
+    },
+    {
         value: "Alcântara",
         label: "Alcântara"
     },
@@ -79,6 +95,10 @@ const LisboaOesteOptions = [
 ]
 
 const LisboaEsteOptions = [
+    {
+        value: null,
+        label: ""
+    },
     {
         value: "Parque das Nações",
         label: "Parque das Nações"
@@ -95,6 +115,10 @@ const LisboaEsteOptions = [
 ]
 
 const listingTypeOptions = [
+    {
+        value: null,
+        label: ""
+    },
     {
         value: "Apartment",
         label: "Apartment"

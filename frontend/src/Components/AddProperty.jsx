@@ -1,11 +1,11 @@
 //React
-import react, { useEffect, useRef, useMemo, useContext } from "react";
+import react, { useEffect, useRef, useMemo, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 //Components
 import MainNavBar from "./MainNavBar";
 // Mui
-import { Card, Grid, CardHeader, CardContent,  InputAdornment , TextField, Button, Tooltip , Divider , Checkbox, FormControlLabel, FormGroup, Breadcrumbs, Link } from "@mui/material";
+import { Card, Grid, CardHeader, CardContent,  InputAdornment , TextField, Button, Tooltip , Divider , Checkbox, FormControlLabel, FormGroup, Breadcrumbs, Link, Snackbar } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import EuroIcon from '@mui/icons-material/Euro';
 // Leaflet
@@ -46,6 +46,7 @@ const AddProperty = () => {
 	
 	/* ---> STATE HANDLING <--- */
 	const [state, dispatch] = useImmerReducer(reducer, initialState)
+	const [dialogOpen, setDialogOpen] = useState(false);
 	const GlobalState = useContext(StateContext);
 
 	function reducer(state, action){
@@ -118,9 +119,12 @@ const AddProperty = () => {
 	}
 
 	/* MAP COMPONENT to retrieve data and methods from map object */
-	const MapComponent = () => {
+	const MapComponent = ({ dispatch }) => {
 		const map = useMap();
-		dispatch({type: 'getMap', mapData: map});
+		useEffect(() => {
+			dispatch({ type: 'getMap', mapData: map });
+		  }, [dispatch, map]);
+		  return null;
 		return null;
 	}
 
@@ -131,7 +135,6 @@ const AddProperty = () => {
 		dragend() {
 			const marker = markerRef.current
 			if (marker != null) {
-				console.log(marker.getLatLng())
 				let newPosition = marker.getLatLng()
 				dispatch({type: 'markerPositionChange', newPosition: [newPosition.lat, newPosition.lng]})
 			}
@@ -142,13 +145,15 @@ const AddProperty = () => {
 
 	/* FORM SUMBIT */
 	function submitForm(e){
-		console.log("Submeti o formulario")
 		dispatch({type: 'submitForm'});
 	}
 
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+	};
+
 	useEffect(() => {
 		if (state.sendRequest)
-		console.log("about to send request")
 		{
 			async function submitProperty(){
 				const formData = new FormData();
@@ -176,9 +181,17 @@ const AddProperty = () => {
 						method: 'POST',
                         body: formData,
                     })
+					if (response.ok) {
+						// handle successful response
+						setDialogOpen(true)
+					} else {
+						// handle error response
+						console.log('Error');
+					}
 				} catch (e) {
 					console.log(e.response)
 				}
+
 			}
 			submitProperty()
 		}
@@ -544,7 +557,7 @@ const AddProperty = () => {
 							<TileLayer
 								url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 							/>
-							<MapComponent/>
+							<MapComponent dispatch={dispatch} />
 							<Marker
 								draggable={true}
 								position={state.markerPosition}
@@ -590,9 +603,16 @@ const AddProperty = () => {
 						<Grid item container justifyContent="space-around">
 							<Button fullWidth variant="contained" sx={{fontWeight:600, my:1}} xs={8} onClick={submitForm}>Submit</Button>
 						</Grid>
-						{/*<Button onClick={() => console.log(state.uploadedPicture)}>Test</Button>*/}
 					</CardContent>
 				</Card>
+				<Snackbar
+					open={dialogOpen}
+					autoHideDuration={5000}
+					onClose={handleDialogClose}
+					message="Successfully created new listing"
+					severity="success"
+					anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+				/>
 		</div>
     </>
   );

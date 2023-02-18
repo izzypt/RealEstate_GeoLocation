@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, Button, Typography, TextField } from "@mui/material"
+import { Card, CardHeader, Button, Typography, TextField, Snackbar } from "@mui/material"
 import { useState } from 'react';
 import MainNavBar from './MainNavBar';
 import { Link } from 'react-router-dom';
@@ -10,22 +10,35 @@ function Register() {
 	const [emailValue, setEmailValue] = useState("")
 	const [passwordValue, setPasswordValue] = useState("")
 	const [password2Value, setPassword2Value] = useState("")
+	const [dialogOpen, setDialogOpen] = useState(false);
 
-	const registerMe = () => {
-		console.log("I want to get registered")
-		fetch('http://127.0.0.1:8000/api-auth/users/', {
- 			method: "POST",
-			body: JSON.stringify({
-				username: usernameValue,
-				email: emailValue,
-				password: passwordValue,
-				re_password: password2Value
-			}),
-			headers: {"Content-type": "application/json; charset=UTF-8"}
-		}).then(response => response.json()) 
-		.then(json => console.log(json))
-		.catch(err => console.log(err));
+	const handleDialogClose = () => {
+        setDialogOpen(false);
 	};
+
+	const registerMe = async () => {
+		try {
+			const response = await fetch('http://127.0.0.1:8000/api-auth/users/', {
+				method: "POST",
+				body: JSON.stringify({
+					username: usernameValue,
+					email: emailValue,
+					password: passwordValue,
+					re_password: password2Value
+				}),
+				headers: {"Content-type": "application/json; charset=UTF-8"}
+			}).then(res => {
+				if (res.status === 201)
+				{
+					console.log("Success")
+					setDialogOpen(true)
+				}
+			})
+		} catch (error) {
+			console.log(error)
+        }
+	};			
+
 	return (
 	<>
 		<MainNavBar/>
@@ -86,6 +99,14 @@ function Register() {
 					</Typography>
 				</div>
 			</Card>
+			<Snackbar
+				open={dialogOpen}
+				autoHideDuration={5000}
+				onClose={handleDialogClose}
+				message="Registered account successfully"
+				severity="success"
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+			/>
 		</div>
 	</>
 	)
