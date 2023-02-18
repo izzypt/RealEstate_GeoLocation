@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('listings/', listings_views.ListingList.as_view()),
     path('listings/create/', listings_views.ListingCreate.as_view()),
+    path('listings/<int:pk>/', listings_views.ListingDetail.as_view()),
+    path('listings/<int:pk>/delete/', listings_views.ListingDelete.as_view()),
     path('profiles/', users_views.ProfileListView.as_view()),
     path('profiles/<int:profile_owner>/', users_views.ProfileDetailView.as_view()),
     path('profiles/<int:profile_owner>/update/', users_views.ProfileUpdateView.as_view()),

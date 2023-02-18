@@ -1,7 +1,8 @@
 //React
 import react, { useReducer, useState, useContext, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 //MUI
-import { Box, Grid, Card, CardMedia, CardHeader, CardContent, CardActions,  InputAdornment , TextField, Button, Tooltip , Divider, Typography, IconButton } from "@mui/material";
+import { Box, Grid, Card, CardMedia, CardHeader, CardContent, CardActions,  InputAdornment , TextField, Button, Tooltip , Divider, Typography, IconButton, Breadcrumbs, Link } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import anonymous_user from '../assets/anonymous_user.png'
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -22,6 +23,7 @@ function Profile() {
 	const [avatar, setAvatar] = useState(null);
 	const [userListings, setUserListings] = useState([]);
 	const [editMode, setEditMode] = useState(true);
+	const navigate = useNavigate();
 	const GlobalState = useContext(StateContext);
 
 	const handleChange = (event) => {
@@ -41,6 +43,27 @@ function Profile() {
 		}
 	};
 
+	const deleteListingHandler = async (listingId) =>{ 
+		console.log(listingId)
+		if(window.confirm("Are you sure you want to delete this listing?\nThis action is irreversible")){
+			try {
+				const response = await fetch(`http://127.0.0.1:8000//listings/${listingId}/delete/`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json'
+					}
+				});
+				const data = await response.json();
+				if(data.success){
+					alert("Listing deleted successfully");
+				}
+			}	
+            catch(err){
+                console.log(err);
+            }
+    	}
+	}
 
 
 	useEffect(() => {
@@ -93,6 +116,27 @@ function Profile() {
   return (
     <>
 		<MainNavBar />
+		<Grid item style={{margin:'1rem'}}>
+			<div role="presentation">
+				<Breadcrumbs aria-label="breadcrumb">
+					<Link 
+						underline="hover" 
+						style={{cursor:'pointer'}} 
+						color="inherit" 
+						onClick={() => navigate("/")}
+					>
+						Home
+					</Link>
+					<Link
+						underline="hover"
+						color="inherit"
+						style={{cursor:'pointer'}}
+					>
+						Profile
+					</Link>
+				</Breadcrumbs>
+			</div>
+		</Grid>
 		<Box sx={{display:'flex', justifyContent:'center', padding:'2rem'}}>
 			<Card variant="outlined" sx={{ minWidth: "76%", minHeight: "50%", padding: '2rem' }}>
 				<CardHeader 
@@ -212,7 +256,12 @@ function Profile() {
 										<Card variant="outlined" sx={{ padding: '2rem', my: 2 }}>
 											{
 											<CardHeader 
-												action={<DeleteIcon color="error" sx={{":hover":{cursor:"pointer"}}}/>}
+												action={
+													<>
+														<ModeEditIcon sx={{mx:1, ":hover":{cursor:"pointer"}}} />
+														<DeleteIcon color="error" sx={{":hover":{cursor:"pointer"}}} onClick={() => deleteListingHandler(listing.id)}/>
+													</>
+												}
 												title={listing.title} 
 												subheader={listing.description}
 											/>
@@ -223,7 +272,6 @@ function Profile() {
 							}) :
 							<h4>You don't have any listings yet.</h4>
 						}
-
 					</Grid>
 					<Button 
 						fullWidth 

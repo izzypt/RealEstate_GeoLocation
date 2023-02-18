@@ -12,6 +12,7 @@ import Profile from './Components/Profile'
 import SecondComponent from './Components/SecondComponent'
 import Agencies from './Components/Agencies'
 import AgencyDetail from './Components/AgencyDetail'
+import ListingDetail from './Components/ListingDetail'
 // Contexts
 import DispatchContext from './Contexts/DispatchContext'
 import StateContext from './Contexts/StateContext'
@@ -76,6 +77,7 @@ function App() {
 					<Route path="/notAllowed" element={<SecondComponent/>}/>
 					<Route path="/Agencies" element={<Agencies/>}/>
 					<Route path="/Agencies/:id" element={<AgencyDetail/>}/>
+					<Route path="/listings/:id" element={<ListingDetail/>}/>
 				</Routes>
 			</BrowserRouter>
 		</DispatchContext.Provider>

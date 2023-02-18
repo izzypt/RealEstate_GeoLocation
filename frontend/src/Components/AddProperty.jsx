@@ -5,7 +5,7 @@ import { useImmerReducer } from "use-immer";
 //Components
 import MainNavBar from "./MainNavBar";
 // Mui
-import { Card, Grid, CardHeader, CardContent,  InputAdornment , TextField, Button, Tooltip , Divider , Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import { Card, Grid, CardHeader, CardContent,  InputAdornment , TextField, Button, Tooltip , Divider , Checkbox, FormControlLabel, FormGroup, Breadcrumbs, Link } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import EuroIcon from '@mui/icons-material/Euro';
 // Leaflet
@@ -240,7 +240,30 @@ const AddProperty = () => {
 	}, [state.boroughValue])
   return (
     <>
-      <MainNavBar />
+		{/*----- NAVBAR -----*/}
+		<MainNavBar />
+		{/*----- BREADCRUMBS -----*/}
+		<Grid item style={{marginTop:'1rem',marginLeft:'1rem', display:'inline-block'}}>
+			<div role="presentation">
+				<Breadcrumbs aria-label="breadcrumb">
+					<Link 
+						underline="hover" 						
+						style={{cursor:'pointer'}} 
+						color="inherit" 
+						onClick={() => navigate("/")}
+					>
+						Home
+					</Link>
+					<Link
+						underline="hover"
+						color="inherit"
+					>
+						Add Property
+					</Link>
+				</Breadcrumbs>
+			</div>
+		</Grid>  
+		{/*-----> CARD <-----*/}
 		<div style={{display:"flex", justifyContent:"center", marginTop:'3rem'}}>
 				<Card 
 					variant="outlined"

@@ -5,10 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import { Icon } from "leaflet"
 //MUI
-import { Grid, AppBar, Divider, Button, Card, CardHeader, CardMedia, CardContent, CardActions, Typography, IconButton } from '@mui/material'
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import { Grid, AppBar, Divider, Button, Card, CardHeader, CardMedia, CardContent, CardActions, Typography, IconButton, Tooltip, Breadcrumbs, Link } from '@mui/material'
 import ExploreIcon from '@mui/icons-material/Explore';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 //Components
 import MainNavBar from './MainNavBar'
 //Icons
@@ -96,14 +95,44 @@ function Listings() {
 		<Grid container>
 			{/* <-- LISTINGS --> */}
 			<Grid item xs={5}>
+			<Grid item style={{marginTop:'1rem',marginLeft:'1rem', display:'inline-block'}}>
+				<div role="presentation">
+					<Breadcrumbs aria-label="breadcrumb">
+						<Link 
+							underline="hover" 						
+							style={{cursor:'pointer'}} 
+							color="inherit" 
+							onClick={() => navigate("/")}
+						>
+							Home
+						</Link>
+						<Link
+							underline="hover"
+							color="inherit"
+						>
+							Listings
+						</Link>
+					</Breadcrumbs>
+				</div>
+			</Grid>  
 				{allListings.map(listing => {
 					return (
 						<Card key={listing.id} style={{margin:'1rem', border:'1px solid black', padding: '1rem'}}>
 							<CardHeader
 								action={
-								<IconButton aria-label="settings" onClick={() => state.mapInstance.flyTo([listing.latitude, listing.longitude], 16)}>
-									<ExploreIcon color="success" />
-								</IconButton>
+									<>
+										<Tooltip title={"Find the property on the map"} placement="top">
+											<IconButton aria-label="settings" onClick={() => state.mapInstance.flyTo([listing.latitude, listing.longitude], 16)}>
+												<ExploreIcon fontSize='small' />
+											</IconButton>
+										</Tooltip>
+										<Tooltip title={"View the property details"} placement="top">
+											<IconButton aria-label="settings" size='medium' onClick={() => navigate(`/listings/${listing.id}`)}>
+												<VisibilityIcon fontSize='medium' />
+											</IconButton>
+										</Tooltip>
+									</>
+
 								}
 								title={listing.title}
 								subheader={moment(listing.date_posted).format('DD/MM/YY') + "- " + listing.seller_username}
@@ -116,7 +145,9 @@ function Listings() {
 								style={{paddingRight:'1rem', paddingLeft:'1rem', height:'20rem', width:'95%', justifyContent:'center', alignItems:'center'}}
 
 							/>
-							<CardContent sx={{backgroundColor:'rgba(176, 190, 197, 0.2)', marginTop:'1rem'}}>
+							<CardContent 
+								sx={{backgroundColor:'rgba(176, 190, 197, 0.2)', marginTop:'1rem'}}
+							>
 								<Typography variant="body2" color="text.secondary">
 									{listing.description}
 								</Typography>
@@ -152,6 +183,7 @@ function Listings() {
 											variant="contained" 
 											fullWidth 
 											style={{margin:"auto"}}
+											onClick={() => navigate(`/listings/${listing.id}`)}
 										>
 											More
 										</Button>

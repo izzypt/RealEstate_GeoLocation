@@ -4,6 +4,7 @@ from .models import Listing
 class listingSerializer(serializers.ModelSerializer):
     seller_username = serializers.SerializerMethodField()
     seller_agency_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Listing
         fields = '__all__' 

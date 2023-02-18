@@ -6,10 +6,9 @@ import MainNavBar from './MainNavBar'
 // Contexts
 import StateContext from '../Contexts/StateContext';
 //MUI
-import { Box, Grid, Card, CardMedia, CardHeader, CardContent, CardActions,  InputAdornment , IconButton, Button, Tooltip , Divider, Typography, Avatar } from "@mui/material";
+import { Box, Grid, Card, CardMedia, CardHeader, CardContent, CardActions,  InputAdornment , IconButton, Button, Tooltip , Divider, Typography, Avatar, Breadcrumbs, Link } from "@mui/material";
 import anonymous_user from '../assets/anonymous_user.png'
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { padding } from '@mui/system';
 
 
 function AgencyDetail() {
@@ -37,7 +36,30 @@ function AgencyDetail() {
 
     return (
         <>
-            <MainNavBar />  
+            <MainNavBar />
+			<Grid item style={{margin:'1rem'}}>
+				<div role="presentation">
+					<Breadcrumbs aria-label="breadcrumb">
+						<Link 
+							underline="hover" 						
+							style={{cursor:'pointer'}} 
+							color="inherit" 
+							onClick={() => navigate("/")}
+						>
+							Home
+						</Link>
+						<Link
+							underline="hover"
+							color="inherit"
+							onClick={() => navigate("/Agencies")}
+							style={{cursor:'pointer'}}
+						>
+							Agencies
+						</Link>
+						<Typography color="text.primary">{agencyDetail.agency_name}</Typography>
+					</Breadcrumbs>
+				</div>
+			</Grid>  
 			<Box sx={{display:'flex', justifyContent:'center', padding:'2rem'}}>
 				<Card variant="outlined" sx={{ maxWidth: "76%", minHeight: "50%", padding: '2rem' }}>
 					<CardHeader 
@@ -50,7 +72,6 @@ function AgencyDetail() {
 							width: 140,
 							borderRadius: "50%",
 							margin: "0 auto",
-							
 						}}
 						image={agencyDetail.picture ? agencyDetail.picture  : anonymous_user}
 						title="Agency Picture"
@@ -70,20 +91,22 @@ function AgencyDetail() {
 											<Card variant="outlined" sx={{position: 'relative', padding: '1rem', my: 2 }}>
 												<IconButton 
 													sx={{ position: 'absolute', top: 0, right: 0, margin: '0.5rem' }}
+													onClick={() => navigate(`/listings/${listing.id}`)}
 												>
 													<VisibilityIcon />
 												</IconButton>
 												{
 													<CardHeader
 														avatar={
-															<Avatar variant="square" src={listing.picture} />
+															<Avatar variant="square" img={listing.picture.url}  sx={{width: 56, height: 56}} />
 														}
 														title={listing.title}
 														subheader={listing.description}
+														sx={{ margin: '0.5rem' }}
 													/>
 												}
 												<CardActions sx={{justifyContent: 'flex-end'}}>
-													<span>{listing.price}€/{listing.property_status}</span>
+													<span>{listing.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}€/{listing.property_status}</span>
 												</CardActions>
 											</Card>	
 										</Grid>
