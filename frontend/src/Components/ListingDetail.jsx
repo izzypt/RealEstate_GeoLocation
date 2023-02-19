@@ -39,8 +39,7 @@ function ListingDetail() {
 			'Authorization': `Bearer ${GlobalState.token}`
 		}
 		}).then(res => res.json()).then(res => {
-		console.log("Got listing detail: ", res)
-		setListingDetail(res)
+			setListingDetail(res)
 		})
 	};
 	getListingDetails()

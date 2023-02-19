@@ -48,6 +48,7 @@ const AddProperty = () => {
 	const [state, dispatch] = useImmerReducer(reducer, initialState)
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
+	const navigate = useNavigate();
 	const GlobalState = useContext(StateContext);
 
 	function reducer(state, action){

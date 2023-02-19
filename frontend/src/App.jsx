@@ -34,7 +34,6 @@ function App() {
 				state.userToken = action.tokenValue;
 				break;
 			case "catchUserInfo":
-				console.log("Action value on reducer function:", action)	
 				state.userId = action.userInfo.id;
 				state.userName = action.userInfo.username;
 				state.userEmail = action.userInfo.email;

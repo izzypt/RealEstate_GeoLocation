@@ -13,31 +13,40 @@ function Login() {
     const [usernameValue, setUsernameValue] = useState("")
 	const [passwordValue, setPasswordValue] = useState("")
     const [token, setToken] = useState("")
+    const [snackbarMessage, setSnackbarMessage] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
     const GlobalDispatch = useContext(DispatchContext);
     const GlobalState = useContext(StateContext);
     const navigate = useNavigate()
 
-    const LogmeIn = () => {
-		fetch('http://127.0.0.1:8000/api-auth/token/login/', {
- 			method: "POST",
-			body: JSON.stringify({
-				username: usernameValue,
-				password: passwordValue,
-			}),
-			headers: {"Content-type": "application/json; charset=UTF-8"}
-		}).then(response => response.json()) 
-		.then(data => {
-            setToken(data.auth_token)
-            GlobalDispatch({type:'catchToken', tokenValue: data.auth_token})
-        })
-		.catch(err => console.log(err));
+    const LogmeIn = async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api-auth/token/login/', {
+                method: "POST",
+               body: JSON.stringify({
+                   username: usernameValue,
+                   password: passwordValue,
+               }),
+               headers: {"Content-type": "application/json; charset=UTF-8"}
+           }).then(response => response.json()) 
+           .then(data => {
+               setToken(data.auth_token)
+               GlobalDispatch({type:'catchToken', tokenValue: data.auth_token})
+           })
+           .catch(err => {
+               console.log(err)
+               setSnackbarMessage("Login failed.. Please try again")
+               setDialogOpen(true)
+           });
+        } catch (error) {
+            setSnackbarMessage("Login failed.. Please try again")
+            setDialogOpen(true)
+        }
     }
 
     useEffect(() => {
         if (token) {
             getUserInfo().then(navigate("/"))
-            console.log(GlobalState)
         }
     }, [token])
 
@@ -98,8 +107,7 @@ function Login() {
                             open={dialogOpen}
                             autoHideDuration={6000}
                             onClose={handleDialogClose}
-                            message="Login Successfull"
-                            severity="success"
+                            message={snackbarMessage}
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                         />
                 </Card>

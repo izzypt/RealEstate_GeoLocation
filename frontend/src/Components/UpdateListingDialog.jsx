@@ -6,7 +6,7 @@ import { useImmerReducer } from "use-immer";
 import MainNavBar from "./MainNavBar";
 // Mui
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Card, Grid, CardHeader, CardContent,  InputAdornment , TextField, Tooltip , Divider , Checkbox, FormControlLabel, FormGroup, Breadcrumbs, Link, Snackbar } from "@mui/material";
+import { Box, Card, Grid, CardHeader, CardContent,  InputAdornment , TextField, Tooltip , Divider , Checkbox, FormControlLabel, FormGroup, Breadcrumbs, Link, Snackbar } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import EuroIcon from '@mui/icons-material/Euro';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -165,14 +165,14 @@ function UpdateListingDialog(props) {
             >
                Update Listing <ModeEditIcon fontSize="small" sx={{mx:1}} />
             </DialogTitle>
-            <DialogContent dividers={scroll === 'paper'}>
+            <DialogContent sx={{ padding: '0' }} dividers={scroll === 'paper'}>
                 <DialogContentText
                     id="scroll-dialog-description"
                     ref={descriptionElementRef}
                     tabIndex={-1}
                     sx={{ padding: '0' }}
                 >
-                    <div style={{display:"flex", justifyContent:"center", marginTop:'0.5rem'}}>
+                    <Grid style={{display:"flex", justifyContent:"center", marginTop:'0.5rem'}}>
                         <Card 
                             variant="outlined"
                             sx={{maxWidth:"95%", minWidth: "95%", padding:'0.5rem'}}
@@ -191,12 +191,12 @@ function UpdateListingDialog(props) {
                                     value={state.titleValue}
                                     onChange={(e) =>  setState((prevState) => {
                                         return {
-                                          ...prevState,
-                                          titleValue: e.target.value,
+                                            ...prevState,
+                                            titleValue: e.target.value,
                                         };
                                     })}
                                     sx={{ marginBottom: 3 }} 
-                                /><br/>
+                                />
                                 {/* <---- LISTING TYPE ----> */}
                                 <TextField 
                                     select
@@ -207,8 +207,8 @@ function UpdateListingDialog(props) {
                                     value={state.listingTypeValue}
                                     onChange={(e) =>  setState((prevState) => {
                                         return {
-                                          ...prevState,
-                                          listingTypeValue: e.target.value,
+                                            ...prevState,
+                                            listingTypeValue: e.target.value,
                                         };
                                     })}
                                     sx={{ marginBottom: 3 }} 
@@ -233,12 +233,12 @@ function UpdateListingDialog(props) {
                                     value={state.descriptionValue}
                                     onChange={(e) =>  setState((prevState) => {
                                         return {
-                                          ...prevState,
-                                          descriptionValue: e.target.value,
+                                            ...prevState,
+                                            descriptionValue: e.target.value,
                                         };
                                     })}
                                     sx={{ marginBottom: 3 }} 
-                                /><br/>
+                                />
                                 {/* <---- PROPERTY STATUS ----> */}
                                 <TextField 
                                     select
@@ -249,8 +249,8 @@ function UpdateListingDialog(props) {
                                     value={state.propertyStatusValue}
                                     onChange={(e) =>  setState((prevState) => {
                                         return {
-                                          ...prevState,
-                                          propertyStatusValue: e.target.value,
+                                            ...prevState,
+                                            propertyStatusValue: e.target.value,
                                         };
                                     })}
                                     sx={{ marginBottom: 3 }} 
@@ -312,7 +312,7 @@ function UpdateListingDialog(props) {
                                         ),
                                     }}
                                     sx={{ marginBottom: 3 }} 
-                                /><br/>
+                                />
                                 {/* <---- ROOMS ----> */}
                                 <TextField 
                                     id="rooms"
@@ -328,7 +328,7 @@ function UpdateListingDialog(props) {
                                         };
                                     })}
                                     sx={{ marginBottom: 3 }} 
-                                /><br/>
+                                />
                                 
                                 {/* <---- CHECKBOXES ----> */}
                                 <Divider sx={{fontWeight:500, my:3}}>
@@ -534,7 +534,7 @@ function UpdateListingDialog(props) {
                                 </Grid>
                             </CardContent>
                         </Card>
-                    </div>
+                    </Grid>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

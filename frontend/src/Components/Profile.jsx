@@ -53,7 +53,6 @@ function Profile() {
 	};
 
 	const deleteListingHandler = async (listingId) =>{ 
-		console.log(listingId)
 		if(window.confirm("Are you sure you want to delete this listing?\nThis action is irreversible")){
 			try {
 				const response = await fetch(`http://127.0.0.1:8000//listings/${listingId}/delete/`, {

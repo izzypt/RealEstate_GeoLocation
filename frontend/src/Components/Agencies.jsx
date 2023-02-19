@@ -101,7 +101,7 @@ function Agencies() {
 												variant="body2" 
 												color="text.secondary"
 											>
-												{agency.bio ? agency.bio : "(No bio provided)"}
+												{agency.bio ? agency.bio : "This user has not defined a bio"}
 											</Typography>
 										</CardContent>
 										<CardActions>
