@@ -67,7 +67,6 @@ function Profile() {
 					setSnackbarMessage("Successfully deleted listing. Will reload page in 2 seconds.");
 					setDialogOpen(true);
 				} else {
-
 					console.log('Error');
 				}
 			}	
@@ -88,7 +87,6 @@ function Profile() {
 					'Authorization': `Bearer ${GlobalState.token}`
 				}
 			}).then(res => res.json()).then(res => {
-				console.log("Got user info", res)
 				setAgencyName(res.agency_name);
 				setPhone(res.phone_number);
 				setBio(res.bio);
@@ -132,7 +130,6 @@ function Profile() {
     <>
 		<MainNavBar />
 		<Grid item style={{margin:'1rem'}}>
-			<div role="presentation">
 				<Breadcrumbs aria-label="breadcrumb">
 					<Link 
 						underline="hover" 
@@ -150,7 +147,6 @@ function Profile() {
 						Profile
 					</Link>
 				</Breadcrumbs>
-			</div>
 		</Grid>
 		<Box sx={{display:'flex', justifyContent:'center', padding:'2rem'}}>
 			<Card variant="outlined" sx={{ minWidth: "76%", minHeight: "50%", padding: '2rem' }}>

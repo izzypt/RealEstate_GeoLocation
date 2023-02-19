@@ -47,6 +47,7 @@ const AddProperty = () => {
 	/* ---> STATE HANDLING <--- */
 	const [state, dispatch] = useImmerReducer(reducer, initialState)
 	const [dialogOpen, setDialogOpen] = useState(false);
+	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const GlobalState = useContext(StateContext);
 
 	function reducer(state, action){
@@ -117,8 +118,8 @@ const AddProperty = () => {
 		}
 
 	}
-
-	/* MAP COMPONENT to retrieve data and methods from map object */
+	
+	  /* MAP COMPONENT to retrieve data and methods from map object */
 	const MapComponent = ({ dispatch }) => {
 		const map = useMap();
 		useEffect(() => {
@@ -183,9 +184,12 @@ const AddProperty = () => {
                     })
 					if (response.ok) {
 						// handle successful response
+						setSnackbarMessage("Property added successfully");
 						setDialogOpen(true)
 					} else {
 						// handle error response
+						setSnackbarMessage("Something went wrong, please try again with all fields.");
+						setDialogOpen(true)
 						console.log('Error');
 					}
 				} catch (e) {
@@ -282,7 +286,7 @@ const AddProperty = () => {
 					variant="outlined"
 					sx={{maxWidth:"75%", minWidth: "75%", padding:'3rem'}}
 				>
-					<CardHeader title="Submit a property" subheader="Add a new property with all of the required fields."/>
+					<CardHeader title="Submit a property" subheader="Add a new property with all of the (*) required fields."/>
 					<CardContent>
 						{/* <---- TEXT FIELDS ----> */}
 						<Divider sx={{fontWeight:500, my:3}}>
@@ -293,7 +297,7 @@ const AddProperty = () => {
 							id="Title"
 							variant="outlined" 
 							fullWidth 
-							label="Title"
+							label="Title*"
 							onChange={(e) => dispatch({
 								type: "catchTitleChange",
 								titleValue: e.target.value
@@ -306,7 +310,7 @@ const AddProperty = () => {
 							id="ListingType"
 							variant="filled"
 							fullWidth 
-							label="Listing Type"
+							label="Listing Type*"
 							onChange={(e) => dispatch({
 								type: "ListingTypeChange",
 								listingTypeValue: e.target.value
@@ -329,7 +333,7 @@ const AddProperty = () => {
 							rows={5}
 							variant="outlined" 
 							fullWidth 
-							label="Description"
+							label="Description*"
 							onChange={(e) => dispatch({
 								type: "DescriptionChange",
 								descriptionValue: e.target.value
@@ -342,7 +346,7 @@ const AddProperty = () => {
 							id="propertystatus"
 							variant="filled" 
 							fullWidth 
-							label="Propert Status"
+							label="Propert Status*"
 							onChange={(e) => dispatch({
 								type: "propertyStatusValueChange",
 								propertyStatusValue: e.target.value
@@ -387,7 +391,7 @@ const AddProperty = () => {
 							type="number"
 							variant="outlined" 
 							fullWidth 
-							label="Price"
+							label="Price*"
 							onChange={(e) => dispatch({
 								type: "priceValueChange",
 								priceValue: e.target.value
@@ -407,7 +411,7 @@ const AddProperty = () => {
 							variant="outlined"
 							type="number" 
 							fullWidth 
-							label="Rooms"
+							label="Rooms*"
 							onChange={(e) => dispatch({
 								type: "roomsValueChange",
 								roomsValue: e.target.value
@@ -485,7 +489,7 @@ const AddProperty = () => {
 						{/* <---- SELECTS ----> */}
 						
 						<Divider sx={{fontWeight:500, my:3}}>
-							Location
+							Location*
 						</Divider>
 						<CardHeader sx={{textAlign:'center'}} subheader="Select an area or drag the marker to your prefered location"/>
 						<Grid item container justifyContent="space-between">
@@ -494,7 +498,7 @@ const AddProperty = () => {
 									id="area"
 									variant="filled"
 									fullWidth 
-									label="Area"
+									label="Area*"
 									value={state.areaValue}
 									onChange={(e) => dispatch({
 										type: "areaValueChange",
@@ -518,7 +522,7 @@ const AddProperty = () => {
 									id="borough"
 									variant="filled" 
 									fullWidth 
-									label="Borough"
+									label="Borough*"
 									onChange={(e) => dispatch({
 										type: "boroughValueChange",
 										boroughValue: e.target.value
@@ -609,10 +613,9 @@ const AddProperty = () => {
 					open={dialogOpen}
 					autoHideDuration={5000}
 					onClose={handleDialogClose}
-					message="Successfully created new listing"
-					severity="success"
+					message={snackbarMessage}
 					anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-				/>
+				></Snackbar>
 		</div>
     </>
   );

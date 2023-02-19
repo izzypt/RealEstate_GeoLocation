@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 //Components
 import MainNavBar from './MainNavBar'
+import anonymous_user from '../assets/anonymous_user.png'
 //MUI
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -26,7 +27,6 @@ function Agencies() {
                 'Content-Type': 'application/json',
             }
         }).then(res => res.json()).then(res => {
-			console.log("Got user info", res)
 			setAgencies(res)
 		})
     };
@@ -44,7 +44,6 @@ function Agencies() {
 	<>
 		<MainNavBar/>
 		<Grid item style={{margin:'1rem'}}>
-			<div role="presentation">
 				<Breadcrumbs aria-label="breadcrumb">
 					<Link 
 						underline="hover" 						
@@ -61,7 +60,6 @@ function Agencies() {
 						Agencies
 					</Link>
 				</Breadcrumbs>
-			</div>
 		</Grid>
 		<Box>
 			<Card 
@@ -82,14 +80,14 @@ function Agencies() {
 				<Grid container spacing={3}>
 					{agencies.map((agency, index) => {
 						return (
-							<>
-								<Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-									<Card key={index} variant='outlined' sx={{ maxWidth: 345, margin: '1rem', flexWrap:'wrap'}}>
+							<React.Fragment key={index}>
+								<Grid item xs={12} sm={6} md={4} lg={3}>
+									<Card variant='outlined' sx={{ maxWidth: 345, maxHeight: 315, minHeight: 315, overflow:'auto', margin: '1rem', flexWrap:'wrap'}}>
 										<CardMedia
 											component="img"
 											alt="Agency Picture"
 											height="140"
-											image={agency.picture}
+											image={agency.picture ? agency.picture : anonymous_user}
 										/>
 										<CardContent>
 											<Typography 
@@ -97,7 +95,7 @@ function Agencies() {
 												variant="h5" 
 												component="div"
 											>
-												{agency.agency_name ? agency.agency_name : "(No Name provided)"}
+												{agency.agency_name ? agency.agency_name : "(Anonymous)"}
 											</Typography>
 											<Typography 
 												variant="body2" 
@@ -119,7 +117,7 @@ function Agencies() {
 										</CardActions>
 									</Card>
 								</Grid>
-							</>
+							</React.Fragment>
 						)
 					})}
 				</Grid>
