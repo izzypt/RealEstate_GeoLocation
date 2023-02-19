@@ -1,4 +1,4 @@
-# GeoLocation_RealEstate ( under construction )
+# GeoLocation_RealEstate
 
 The main goal of the project is to build a app which allow real estate agencies to come in and create property listings for buyers to see.
 
