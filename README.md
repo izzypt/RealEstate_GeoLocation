@@ -11,6 +11,8 @@ The main goal of the project is to build a app which allow real estate agencies 
 - Django Geo (https://docs.djangoproject.com/en/4.1/ref/contrib/gis/tutorial/)
 - PostGIS (https://postgis.net/PostGres -> extension to store Geo spacial coordinates)
 
+# Checkout final rest <a href=http://realestate-frontend.s3-website.eu-west-3.amazonaws.com/]>here</a>
+
 # Setting up the Backend
 
 - Create the backend folder and cd into it.
